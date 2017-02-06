@@ -5,18 +5,32 @@
 
 1) Give an example of a feature common in interpreted languages that is rare in compiled languages.
 
+Dynamic types
+
 2) Name two advantages of static typing over dynamic typing.
+
+It helps with checking for whether you're giving the right type of data to a function, and it saves space.
 
 3) Give an example of a static semantic error.
 
+int x = "seven"
+
 4) What are two reasons you might want to turn off code optimization?
 
+It might overoptimize and give you an unwanted side effect, or it might take away a wanted side effect. 
+
 5) When you run `gcc` with `-S`, why might the results look different on different computers?
+
+Because it would be either x64 or x86 assembly code.
 
 6) If you spell a variable name wrong, or if you spell a function name wrong, 
 the error messages you get might look very different.  Why?
 
+Spelling a function name wrong would make you miss running a whole section of code, and would thus probably throw you a bunch of different errors, while misspelling a variable name would probably just tell you that it's an undefined reference.
+
 7) What is a segmentation fault?
+
+It's when you try to read/write to a bad memory location.
 
 
 ## Chapter 2
@@ -26,13 +40,23 @@ the error messages you get might look very different.  Why?
 
 1) Give a real-world example of virtualization (ideally not one of the ones in the book).
 
+Calling 911 gives you a line to the dispatch, and (given the right situation) an ambulance is sent to your location. You don't decide which ambulance or which route they take to get to you, you just call, give a location, and medical professionals appear in a few minutes.
+
 2) What is the difference between a program and a process?
+
+The program is the running code, while the process is an abstraction of the isolation process keeping the program from affecting other programs that it's not meant to affect.
 
 3) What is the primary purpose of the process abstraction?  What illusion does the process abstraction create?
 
+To coordinate multiple processes accessing the same section of memory (but not all at once, hence coordination). It makes it seem as if they can all access it at once.
+
 4) What is the kernel?
 
+The OS section responsible for "core capabilities".
+
 5) What is a daemon?
+
+A background process that provides OS services.
  
 
 ## Chapter 3
