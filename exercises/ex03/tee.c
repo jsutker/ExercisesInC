@@ -7,13 +7,13 @@ int main(int argc, char **argv){
     return 1;
   }
 
-  char how_to_write = 'w';
+  char *how_to_write = "w";
   char ch;
 
   while ((ch = getopt(argc, argv, "a")) != EOF){
     switch(ch){
       case 'a':
-        how_to_write = 'a';
+        how_to_write = "a";
         break;
       default:
         fprintf(stderr, "Unknown option: '%s'\n", optarg);
@@ -25,7 +25,7 @@ int main(int argc, char **argv){
   argv += optind;
 
   char output[8192];
-  while (scanf("%s", &output) < 0) {
+  while (fscanf(stdin, "%79[^\n]", output) < 0) {
     fprintf(stderr, "%s\n", "scanf failed");
   }
   fprintf(stdout, "output: %s\n", output);
@@ -34,7 +34,6 @@ int main(int argc, char **argv){
   FILE *the_file;
   while (i < argc){
     the_file = fopen(argv[i], how_to_write);
-    fprintf(stdout, "%s\n", "help");
     fprintf(the_file, "%s\n", output);
     fclose(the_file);
     i++;
