@@ -66,29 +66,79 @@ A background process that provides OS services.
 
 1) The Georgian alphabet has 33 letters.  How many bit are needed to specify a letter?
 
+6 bits
+
 2) In the UTF-16 character encoding, the binary representation of a character can take up to 32 bits.  
 Ignoring the details of the encoding scheme, how many different characters can be represented?
 
+2^32 (i.e. 4294967296)
+
 3) What is the difference between "memory" and "storage" as defined in Think OS?
+
+Memory loses its data when the computer shuts down, storage does not.
 
 4) What is the difference between a GiB and a GB?  What is the percentage difference in their sizes?
 
+1 GiB = 2^30 B
+1 GB = 10^9 B
+
+They're about the same, but one uses base 2 while the other uses base 10. It's approximately a 7.374% difference (1,073,741,824 B vs. 1,000,000,000 B)
+
 5) How does the virtual memory system help isolate processes from each other?
+
+It assigns completely separate physical memory spaces to each process, even if it gives each the same virtual memory space.
 
 6) Why do you think the stack and the heap are usually located at opposite ends of the address space?
 
+It's so that they don't overlap as easily (you'd have to use more space together than your memory allows, as opposed to trying to layer the two from the same side)
+
 7) What Python data structure would you use to represent a sparse array?
+
+A hash, probably
 
 8) What is a context switch?
 
+It's when the OS has to save the state of one process so that it canexit it and enter another process, while being able to start up the previous process at a later time like nothing ever happened.
+
 In this directory, you should find a subdirectory named `aspace` that contains `aspace.c`.  Run it on your computer and compare your results to mine.
+
+Mine was:
+```
+Address of main is 0x40057d
+Address of global is 0x60104c
+Address of local is 0x7ffd0120a694
+Address of p is 0x2033010
+```
   
-1) Add a second call to `malloc` and check whether the heap on your system grows up (toward larger addresses).  
+1) Add a second call to `malloc` and check whether the heap on your system grows up (toward larger addresses).
+
+New call was `p`, results are:
+```
+Address of main is 0x40057d
+Address of global is 0x60104c
+Address of local is 0x7ffdb3499d5c
+Address of p is 0x17ec010
+Address of q is 0x17ec0a0
+```
+(i.e., yes, goes towards larger addresses)
 
 2) Add a function that prints the address of a local variable, and check whether the stack grows down.  
 
+New local variable was `local2`, results are:
+```
+Address of main is 0x40057d
+Address of global is 0x60104c
+Address of local is 0x7ffc0ea2f47c
+Address of local2 is 0x7ffc0ea2f47b
+Address of p is 0xdf9010
+Address of q is 0xdf90a0
+```
+(i.e., yes, goes towards smaller addresses)
+
 3) Choose a random number between 1 and 32, and allocate two chunks with that size.  
 How much space is there between them?  Hint: Google knows how to subtract hexadecimal numbers.
+
+There is a difference of 32 between the addresses (fancy that).
 
 
 ## Chapter 4
@@ -99,19 +149,33 @@ How much space is there between them?  Hint: Google knows how to subtract hexade
 1) What abstractions do file systems provide?  Give an example of something that is logically 
 true about files systems but not true of their implementations.
 
+It abstracts away the blocks of memory (and other things about memory like sectors and tracks), and instead makes files the user accessed
+
 2) What information do you imagine is stored in an `OpenFileTableEntry`?
 
+It keeps track of what file is open and where in the file you are
+
 3) What are some of the ways operating systems deal with the relatively slow performance of persistent storage?
+
+Block transfers, prefetching, buffering, and caching
 
 4) Suppose your program writes a file and prints a message indicating that it is done writing.  
 Then a power cut crashes your computer.  After you restore power and reboot the computer, you find that the 
 file you wrote is not there.  What happened?
 
+It may have been put into the buffer and not put into persistent storage yet
+
 5) Can you think of one advantage of a File Allocation Table over a UNIX inode?  Or an advantage of a inode over a FAT?
+
+inodes seem to contain actual information about the file, where as FATs seem not to
 
 6) What is overhead?  What is fragmentation?
 
+Overhead is the space used by allocator, and fragmentation is a term for the unused blocks in memory
+
 7) Why is the "everything is a file" principle a good idea?  Why might it be a bad idea?
+
+It makes things easier to work with for developers and makes pipes work easier. It might make it difficult for certain niche things, but I can't really think of those right now.
 
 If you would like to learn more about file systems, a good next step is to learn about journaling file systems.  
 Start with [this Wikipedia article](https://en.wikipedia.org/wiki/Journaling_file_system), then 
